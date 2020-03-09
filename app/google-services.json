@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "97214942012",
+    "firebase_url": "https://andoirdinstagram.firebaseio.com",
+    "project_id": "andoirdinstagram",
+    "storage_bucket": "andoirdinstagram.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:97214942012:android:e5ed6da8840ef65ac16c39",
+        "android_client_info": {
+          "package_name": "com.orellana.androidinstagram"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "97214942012-4bf71vnn3bu9angfsr3d28ruf83bj0bu.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAaQWdGPzqQaeUb8y7WyBn-QxvkCwbrUlg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "97214942012-4bf71vnn3bu9angfsr3d28ruf83bj0bu.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
