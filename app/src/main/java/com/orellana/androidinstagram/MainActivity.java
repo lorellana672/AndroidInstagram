@@ -2,11 +2,10 @@ package com.orellana.androidinstagram;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import android.app.ProgressDialog;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -14,7 +13,6 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthRegistrar;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -23,6 +21,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Boolean signUpMode = true;
     TextView buttonChangeText;
     Button signUpButton;
+    ProgressDialog progressDialog;
 
     private FirebaseAuth mAuth;
 
@@ -41,7 +40,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
 
         }
-
     }
 
     public void signUp(View view) {
@@ -55,17 +53,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this, "The user name is to short", Toast.LENGTH_SHORT).show();
         } else if (password.length() <= 4){
             Toast.makeText(this, "The password is to short", Toast.LENGTH_SHORT).show();
+        } else {
+            progressDialog.setMessage("Loading");
+            progressDialog.show();
+            createAcount(userText, password);
         }
+    }
 
+    public void createAcount(String userText, String password){
         mAuth.createUserWithEmailAndPassword(userText, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(MainActivity.this, "User registered", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Authentication success", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(MainActivity.this, "Error. User not registered", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
                         }
+                        progressDialog.dismiss();
                     }
                 });
     }
@@ -76,11 +81,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        mAuth = FirebaseAuth.getInstance();
 
+        signUpButton = findViewById(R.id.signUpButton);
         buttonChangeText = findViewById(R.id.buttonChangeText);
         buttonChangeText.setOnClickListener(this);
+        signUpButton.setText("Signup");
 
-        mAuth = FirebaseAuth.getInstance();
+        progressDialog = new ProgressDialog(this);
     }
 
 
