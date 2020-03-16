@@ -15,6 +15,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -75,7 +76,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         } else {
             progressDialog.setMessage("Loading");
             progressDialog.show();
-            createAcount(user, pass);
+            if (signUpMode) {
+                createAcount(user, pass);
+            } else {
+                signIn(user, pass);
+            }
         }
     }
 
@@ -88,6 +93,22 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             Toast.makeText(MainActivity.this, "Authentication success", Toast.LENGTH_SHORT).show();
                         } else {
                             Toast.makeText(MainActivity.this, "Authentication failed.", Toast.LENGTH_SHORT).show();
+                        }
+                        progressDialog.dismiss();
+                    }
+                });
+    }
+
+    public void signIn(String user, String password) {
+        mAuth.signInWithEmailAndPassword(user, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(MainActivity.this, "Login success", Toast.LENGTH_SHORT).show();
+                            FirebaseUser user = mAuth.getCurrentUser();
+                        } else {
+                            Toast.makeText(MainActivity.this, "Login failed.", Toast.LENGTH_SHORT).show();
                         }
                         progressDialog.dismiss();
                     }
